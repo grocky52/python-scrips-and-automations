@@ -1,0 +1,54 @@
+ 
+ 
+ 
+ import tkinter as tk
+ from tkinter import *
+ from tkinter import scrolledtext as sb_text
+ import lyricsgenius as lg
+ 
+ def cretewidgets():
+ songlabel = Label(root, text='SONG:  ', bg='lightblue4')
+ songlabel.grid(row=0, column=0, padx = 5, pady = 5)
+ 
+ songentry = Entry(root, width = 25, bg = 'azure3', textvariable= song)
+ songentry.grid(row = 0, column = 1, padx = 5, pady = 5)
+ 
+ searchbutton = Button(root, text = 'SEARCH', command = searchFor)
+ searchbutton.grid(row = 0, column = 2, padx = 5, pady = 5, rowspan = 2) 
+ 
+ artistlabel = Label(root, text='ARTIST:  ', bg='lightblue4')
+ artistlabel.grid(row = 1, column = 0, padx = 5, pady = 5)
+ 
+ artistentry = Entry(root, width = 25, bg = 'azure3', textvariable = artist)
+ artistentry.grid(row = 1, column = 1, padx = 5, pady = 5)
+ 
+ lyricslabel = Label(root, text = 'LYRICS: ', bg = 'lightblue4')
+ lyricslabel.grid(row = 2, column = 0 , padx = 5, pady = 5)
+ 
+ root.lyricsText = sb_text.ScrolledText(root, width= 35, height = 25, bg='azure3', fg='#00001a')
+ root.lyricsText.grid(row = 3, column = 0, rowspan = 5,  columnspan = 3, padx = 10, pady = 5)
+ root.lyricsText.config(state = DISABLED, font = 'calibbri 15', wrap = 'word')
+ 
+ 
+ 
+ def searchFor():
+ i_song = song.get()
+ i_artist = artist.get()
+ genius = lg.Genius('xvx4-YJzMnTVn4uPWt_kU6oRE2IiLZnSYqgKZO7g8iQIRkagmePnp8awHaKWLETM')
+ lyrics = genius.search_song(i_song, i_artist)
+ root.lyricsText.config(state = NORMAL)
+ root.lyricsText.delete('1.0', END)
+ root.lyricsText.insert('end', lyrics.lyrics)
+ root.lyricsText.config(state = DISABLED)
+ 
+ 
+ root = tk.Tk()
+ root.title('lyrical application')
+ root.geometry("500x800")
+ root.config(background='lightblue4')
+ root.resizable(False,False)
+ song = StringVar()
+ artist = StringVar()
+ cretewidgets()
+ 
+ root.mainloop()
